@@ -1,0 +1,293 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnFly | Secure Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .onfly-teal { color: #00a8a8; }
+        .onfly-bg { background-color: #00a8a8; }
+        
+        .animate-scan {
+            position: relative;
+            overflow: hidden;
+        }
+        .animate-scan::after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 168, 168, 0.3), transparent);
+            animation: scan 1.5s infinite linear;
+        }
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        .stamp-rejected {
+            border: 6px solid #ef4444;
+            color: #ef4444;
+            transform: rotate(-15deg);
+            display: inline-block;
+            padding: 10px 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 8px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- SCREEN 1: RULES -->
+    <section id="screen-1" class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full text-center bg-white p-8 rounded-[2.5rem] shadow-2xl border border-slate-100">
+            <div class="mb-6 inline-block p-4 bg-slate-50 rounded-full">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00a8a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="rotate-45"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-1.1-.3-2.2.4-2.4 1.5l-.3 1.4c-.1.5.1 1 .5 1.4l7.1 5.3-2.4 2.4c-.4.4-.5 1-.2 1.4l.7.7c.4.4 1 .3 1.4-.2l2.4-2.4 5.3 7.1c.4.4.9.6 1.4.5l1.4-.3c1.1-.2 1.8-1.3 1.5-2.4z"></path></svg>
+            </div>
+            
+            <h1 class="text-4xl font-black italic tracking-tighter onfly-teal mb-1">ONFLY</h1>
+            <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-8">OnTime. On a great flight.</p>
+
+            <div class="bg-red-50 text-red-600 p-4 rounded-2xl mb-6 text-left border border-red-100">
+                <p class="font-black text-[10px] uppercase tracking-widest mb-1">⚠️ IMPORTANT NOTICE</p>
+                <p class="text-[9px] font-bold leading-tight uppercase">NOT A REAL COMPANY. SIGN UP FOR FUN ONLY. NO MONEY INVOLVED.</p>
+            </div>
+
+            <div class="text-left mb-8 space-y-4">
+                <h3 class="font-black text-xs uppercase tracking-widest text-slate-800 border-b pb-2">Community Rules</h3>
+                <ul class="text-[11px] font-bold space-y-2 text-slate-500">
+                    <li class="flex items-center gap-2 text-red-500"><span>•</span> NO HARASSMENT / BULLYING</li>
+                    <li class="flex items-center gap-2 text-red-500"><span>•</span> NO RACISM OR DISCRIMINATION</li>
+                    <li class="flex items-center gap-2 text-red-500"><span>•</span> NO RELIGIOUS HATE</li>
+                    <li class="flex items-center gap-2 text-red-500"><span>•</span> NO ADDING PEOPLE TO GC</li>
+                </ul>
+            </div>
+
+            <button onclick="next(2)" class="w-full onfly-bg text-white py-4 rounded-2xl font-black shadow-xl shadow-[#00a8a833] active:scale-95 transition-all">
+                I AGREE & CONTINUE
+            </button>
+        </div>
+    </section>
+
+    <!-- SCREEN 2: APPLICATION -->
+    <section id="screen-2" class="hidden min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white p-8 rounded-[2.5rem] shadow-2xl">
+            <h2 class="text-xl font-black mb-6 italic uppercase onfly-teal">Portal Entry</h2>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Username (DO NOT USE REAL NAME)</label>
+                    <input id="inp-name" type="text" maxlength="20" placeholder="Enter Callsign..." 
+                        class="w-full bg-slate-100 p-4 rounded-xl font-bold outline-none border-2 border-transparent focus:border-[#00a8a8] transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Select Team</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="setTeam('Marketing')" class="team-btn p-4 rounded-xl border-2 border-slate-100 text-left hover:border-slate-300 transition-all">
+                            <p class="font-black text-xs uppercase">Marketing</p>
+                            <p class="text-[9px] text-slate-400 font-bold">Video Ideas & TikTok Growth</p>
+                        </button>
+                        <button onclick="setTeam('Design')" class="team-btn p-4 rounded-xl border-2 border-slate-100 text-left hover:border-slate-300 transition-all">
+                            <p class="font-black text-xs uppercase">Design</p>
+                            <p class="text-[9px] text-slate-400 font-bold">Livery Design & Art (Approval Required)</p>
+                        </button>
+                        <button onclick="setTeam('Strategy')" class="team-btn p-4 rounded-xl border-2 border-slate-100 text-left hover:border-slate-300 transition-all">
+                            <p class="font-black text-xs uppercase">Strategy</p>
+                            <p class="text-[9px] text-slate-400 font-bold">Alliances & Private Collabs</p>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="startVerification()" class="w-full onfly-bg text-white py-4 rounded-xl font-black mt-4 shadow-lg">
+                    VERIFY IDENTITY
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN 3: VERIFYING (Same for everyone) -->
+    <section id="screen-3" class="hidden min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl text-center">
+            <div id="scan-icon" class="w-20 h-20 mx-auto mb-8 animate-scan onfly-bg rounded-2xl flex items-center justify-center text-white shadow-lg">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h2 id="verify-text" class="text-xl font-black mb-4 uppercase italic tracking-tight">AI Screening...</h2>
+            
+            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden mb-8">
+                <div id="bar" class="h-full onfly-bg transition-all duration-700" style="width: 0%"></div>
+            </div>
+
+            <div class="bg-slate-900 p-5 rounded-2xl text-left font-mono text-[10px] text-slate-400 space-y-2 border border-slate-800">
+                <p id="log-1" class="flex items-center gap-2"><span class="text-green-500">●</span> Connecting to OnFly Mainframe...</p>
+                <p id="log-2" class="opacity-0 flex items-center gap-2"><span id="dot-2" class="text-yellow-500">●</span> Safety Screening in progress...</p>
+                <p id="log-3" class="opacity-0 flex items-center gap-2"><span id="dot-3" class="text-slate-600">●</span> Finalizing approval status...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN 4: CERTIFICATE (Success OR Failure) -->
+    <section id="screen-4" class="hidden min-h-screen flex items-center justify-center p-4 bg-slate-300">
+        <div id="cert-card" class="max-w-sm w-full bg-white rounded-[2rem] shadow-2xl overflow-hidden border-[12px] border-white">
+            <div id="cert-header" class="onfly-bg p-10 text-white text-center relative">
+                <h1 class="text-4xl font-black italic tracking-tighter mb-1">ONFLY</h1>
+                <p id="final-team" class="text-[9px] font-black uppercase tracking-[0.4em] opacity-80">CREW MEMBER</p>
+            </div>
+            
+            <div class="p-10 text-center bg-white relative">
+                <div id="rejected-stamp" class="hidden absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                    <div class="stamp-rejected">REJECTED</div>
+                </div>
+
+                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Result For:</p>
+                <h3 id="final-name" class="text-2xl font-black text-slate-800 mb-8 italic break-words">NAME</h3>
+                
+                <div id="status-badge" class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border mb-8 shadow-sm">
+                    <!-- Dynamic -->
+                </div>
+
+                <div id="final-msg" class="text-[11px] font-bold text-slate-500 leading-relaxed bg-slate-50 p-5 rounded-2xl mb-8 border border-slate-100">
+                    <!-- Dynamic -->
+                </div>
+
+                <div id="cert-footer" class="border-t-2 border-dashed border-slate-100 pt-8">
+                    <!-- Dynamic footer -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentTeam = '';
+        let isSafe = true;
+        
+        // STRICT FILTER
+        const blockedTerms = [
+            'nigg', 'niga', 'fagg', 'kike', 'cunt', 'whore', 'slut', 'fuck', 'shit', 'bitch', 
+            'dick', 'pussy', 'penis', 'vagina', 'porn', 'sex', 'hitler', 'nazi', 'racist',
+            'islam', 'christian', 'jew', 'allah', 'god', 'jesus', 'religion', 'atheist',
+            'gay', 'lesbian', 'trans', 'kill', 'murder', 'suicide', 'abuse', 'bully'
+        ];
+
+        function next(num) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('screen-' + num).classList.remove('hidden');
+        }
+
+        function setTeam(t) {
+            currentTeam = t;
+            document.querySelectorAll('.team-btn').forEach(b => {
+                b.classList.remove('border-[#00a8a8]', 'bg-[#00a8a80a]', 'scale-[1.02]', 'shadow-md');
+                if(b.innerText.includes(t.toUpperCase())) {
+                    b.classList.add('border-[#00a8a8]', 'bg-[#00a8a80a]', 'scale-[1.02]', 'shadow-md');
+                }
+            });
+        }
+
+        function startVerification() {
+            const name = document.getElementById('inp-name').value.trim();
+            if(!name || !currentTeam) {
+                alert("Missing Information: Name and Team selection required.");
+                return;
+            }
+
+            // CHECK SAFETY BUT DON'T BLOCK YET
+            const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            isSafe = !blockedTerms.some(term => cleanName.includes(term));
+
+            next(3);
+            runAnimation();
+        }
+
+        function runAnimation() {
+            setTimeout(() => {
+                document.getElementById('bar').style.width = "35%";
+                document.getElementById('log-2').classList.remove('opacity-0');
+                document.getElementById('verify-text').innerText = "Scanning Database...";
+            }, 1200);
+
+            setTimeout(() => {
+                document.getElementById('bar').style.width = "70%";
+                document.getElementById('dot-2').classList.replace('text-yellow-500', 'text-green-500');
+                document.getElementById('log-3').classList.remove('opacity-0');
+                document.getElementById('verify-text').innerText = "Analyzing Content...";
+                
+                // Visual hint if it's going to fail
+                if(!isSafe) {
+                    document.getElementById('dot-3').classList.replace('text-slate-600', 'text-red-500');
+                    document.getElementById('verify-text').innerText = "Security Alert!";
+                    document.getElementById('verify-text').classList.add('text-red-600');
+                }
+            }, 3000);
+
+            setTimeout(() => {
+                document.getElementById('bar').style.width = "100%";
+                if(isSafe) {
+                    document.getElementById('dot-3').classList.replace('text-slate-600', 'text-green-500');
+                    document.getElementById('verify-text').innerText = "Verification Complete";
+                } else {
+                    document.getElementById('verify-text').innerText = "Check Failed";
+                }
+                finalize();
+            }, 5000);
+        }
+
+        function finalize() {
+            setTimeout(() => {
+                next(4);
+                const name = document.getElementById('inp-name').value.trim();
+                const header = document.getElementById('cert-header');
+                const badge = document.getElementById('status-badge');
+                const footer = document.getElementById('cert-footer');
+                const stamp = document.getElementById('rejected-stamp');
+                
+                document.getElementById('final-name').innerText = name;
+                document.getElementById('final-team').innerText = currentTeam + " TEAM";
+
+                if(isSafe) {
+                    // SUCCESS UI
+                    header.className = "onfly-bg p-10 text-white text-center relative";
+                    stamp.classList.add('hidden');
+                    badge.className = "inline-flex items-center gap-2 px-5 py-2 bg-green-50 text-green-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-100 mb-8 shadow-sm";
+                    badge.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg> Bot Approved`;
+                    
+                    let msg = "";
+                    if(currentTeam === 'Marketing') msg = "Approved for Video Production. Send this screenshot to our TikTok to join the Marketing Ideas group chat.";
+                    if(currentTeam === 'Design') msg = "Approved for Design Review. Send this screenshot + your livery art to our TikTok DM.";
+                    if(currentTeam === 'Strategy') msg = "Approved for Strategic Operations. Send screenshot to request alliances or mergers.";
+                    document.getElementById('final-msg').innerText = msg;
+
+                    footer.innerHTML = `
+                        <div class="bg-red-500 text-white text-[10px] font-black py-2 rounded-lg animate-pulse mb-3 uppercase">📸 Take Screenshot Now</div>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Send to OnFly TikTok DM for GC Access</p>
+                    `;
+                } else {
+                    // FAILURE UI
+                    header.className = "bg-slate-800 p-10 text-white text-center relative";
+                    stamp.classList.remove('hidden');
+                    badge.className = "inline-flex items-center gap-2 px-5 py-2 bg-red-50 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100 mb-8 shadow-sm";
+                    badge.innerHTML = `❌ Security Blocked`;
+                    
+                    document.getElementById('final-msg').className = "text-[11px] font-bold text-red-600 leading-relaxed bg-red-50 p-5 rounded-2xl mb-8 border border-red-100";
+                    document.getElementById('final-msg').innerText = "REASON: Name violates OnFly Community Guidelines. Harassment, Racism, Religious Hate, or Discrimination is strictly forbidden.";
+
+                    footer.innerHTML = `
+                        <button onclick="location.reload()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest">Restart Application</button>
+                        <p class="text-[8px] text-slate-400 mt-4 uppercase">This incident has been logged by the Bot.</p>
+                    `;
+                }
+            }, 800);
+        }
+    </script>
+</body>
+</html>
+
+```
